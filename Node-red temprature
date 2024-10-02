@@ -1,0 +1,8 @@
+
+1) http-in  --- URL->(/queryPitemp) Name->(Query Pi Temp)
+2) exec ---- Command->(vcgencmd meassure_temp)  Name-->(Temp CMD)
+3) function --- On message-->(str = msg.payload;
+str =str.substring(5,11);
+msg.payload ='<h1>The current temp is '+ str +'</h1>';
+return msg; )
+4) http response -- Name-->( Current Pi Temprature)
