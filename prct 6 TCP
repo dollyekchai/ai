@@ -1,0 +1,50 @@
+TCPServer.py
+
+import socket
+import RPi.GPIO as GPIO
+from subprocess import call
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(13,GPIO.OUT)
+
+server_socket=socket.socket(socket.AF_INET , socket.SOCK_DGRAM)
+server_socket.bind('',6666)
+print("UDPServer waiting for client on port 6666")
+
+def FW():
+    GPIO.output(12,True)
+    print("on")
+    call(["ls" , "-1"])
+
+def STOP():
+    GPIO.output(13,False)
+    print("off")
+    call(["ls" , "-all"])
+
+options ={ "0":FW,
+           "3": STOP,
+           }
+while True:
+    dataFromClient,address = server_socket.recvfrom(256)
+    dataFromClient=dataFromClient.rstrip()
+    options[dataFromClient.decode()]()
+
+
+
+TCPClient.py
+
+import socket
+client_socket = socket.socket(socket.Af_INET, socket.SOCK_DGRAM)
+try:
+    while 1:
+        data = input("enter data :")
+        #ip address = RPI IP address
+        #6666= number port
+        client_socket.sendto(data.encode(),('192.168.0.202',6666))
+        print ("sending  request ")
+
+except Exception as ex:
+    print(ex)
+    raw_input()
+
+client_socket.close()
