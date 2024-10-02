@@ -1,0 +1,34 @@
+sudo raspi-config
+We then edit the modules file:
+sudo nano /etc/modules
+i2c-bcm2708
+i2c-dev
+Now we can quickly install the necessary tools:
+sudo apt-get install i2c-tools python-smbus
+Let’s start a small test. The parameter -y 1stands for revision 2. If you have a completely old Pi (before 2013), you would have to specify a 0 instead:
+sudo i2cdetect -y 1
+sudo i2cget -y 1 0x68 0x75
+
+Code-1
+import smbus
+import time
+
+bus=smbus.SMBus(1)
+bus.write_byte_data(0x68,0x6B,0)
+
+def read_word(reg):
+	high=bus.read_word_data(0x68,reg)
+	low=bus.read_word_data(0x68,reg+1)
+	val=(high<<8)+low
+	return val-65536 if val >32767 else val
+try:
+	while True:
+		x = read_word(0x43)
+		y = read_word(0x45)
+		z = read_word(0x47)
+		print(f"X:{x},Y:{y},Z:{z}")
+		time.sleep(0.5)
+except KeyboardInterrupt:
+	print("Program terminated")
+
+
