@@ -1,0 +1,4 @@
+Timestamp === click on repeat select interval
+function === Onmessage --> (msg.payload = Math.random() * 100)
+chart === X-axis 30 second
+          y-axis  min 0 max 100
