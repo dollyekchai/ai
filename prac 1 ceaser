@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class CeaserCipher {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter text: ");
+        String text = sc.nextLine();
+        System.out.print("Enter key: ");
+        int key = sc.nextInt();
+        
+        
+        
+        String encrypted = cipher(text, key);
+        System.out.println("Encrypted: " + encrypted);
+        System.out.println("Decrypted: " + cipher(encrypted, -key));
+        
+        sc.close(); 
+    }
+
+    static String cipher(String text, int key) {
+        StringBuilder result = new StringBuilder();
+        
+        for (char c : text.toCharArray()) {
+            if (Character.isLetter(c)) {
+                char base = Character.isUpperCase(c) ? 'A' : 'a';
+                
+                
+                result.append((char) ((c - base + key + 26) % 26 + base));
+            } else {
+                result.append(c); // Non-alphabetical characters remain unchanged
+            }
+        }
+        
+        return result.toString();
+    }
+}
