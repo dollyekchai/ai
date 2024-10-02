@@ -1,0 +1,29 @@
+import time as _time
+def fib(n):
+    a , b = 0 ,1
+    for i in range(n):
+        a,b=b,a+b
+    return a
+current_millis=lambda : int(round(_time.time() *1000))
+input=int(input("input term="))
+starttime=current_millis()
+x=fib(input)
+endtime=current_millis()
+print("the term value is %d time taken is %f" %(x,(endtime-starttime)))
+
+
+2)
+import time as _time
+def fibR(n):
+    a,i=0,1
+    if n==1 or n==2:
+        return 1
+    return fibR(n-1)+fibR(n-2)
+
+current_millis=lambda : int(round(_time.time() *1000))
+input=int(input("input term="))
+starttime=current_millis()
+x=fibR(input)
+endtime=current_millis()
+print("the term value is %f time taken is %f" %(x,(endtime-starttime)))
+
